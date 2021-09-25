@@ -9,7 +9,7 @@ namespace MyStore_GB_.Controllers
 {
     public class EmployeeController : Controller
     {
-        List<Employee> employees = new()
+       static List<Employee> employees = new()
         {
             new Employee { Id = 1, LastName = "Stivenson", FirstName="Stiv", Role = "DEV" },
             new Employee { Id = 2, LastName = "Stivenson", FirstName = "Bob", Role = "PM" },
@@ -21,8 +21,24 @@ namespace MyStore_GB_.Controllers
         }
         public IActionResult Details(int id)
         {
-            var test = (Employee)employees.FirstOrDefault(t => t.Id == id);
             return View((Employee)employees.FirstOrDefault(t => t.Id == id));
+        }
+        public IActionResult Delete(int id)
+        {
+            employees.Remove(employees.FirstOrDefault(t => t.Id == id));
+            return RedirectToAction("Index","Employee", new { t=employees});
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View(employees.FirstOrDefault(t=>t.Id==id));
+        }
+        [HttpPost]
+        public IActionResult Edit(Employee employee)
+        {
+            employees.Remove(employees.FirstOrDefault(t=> t.Id == employee.Id));
+            employees.Add(employee);
+            return RedirectToAction("Index", "Employee", new { t = employees });
         }
     }
 }
