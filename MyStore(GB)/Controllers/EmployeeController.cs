@@ -4,41 +4,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Models;
+using MyStore_GB_.Models.Service.Interface;
 
 namespace MyStore_GB_.Controllers
 {
     public class EmployeeController : Controller
     {
-       static List<Employee> employees = new()
+        private readonly IEmployeeService _employeeService;
+        public EmployeeController(IEmployeeService employee)
         {
-            new Employee { Id = 1, LastName = "Stivenson", FirstName="Stiv", Role = "DEV" },
-            new Employee { Id = 2, LastName = "Stivenson", FirstName = "Bob", Role = "PM" },
-            new Employee { Id = 3, LastName = "Stivenson", FirstName = "Shelly", Role = "QA" }
-        };
+            _employeeService = employee;
+        }
         public IActionResult Index()
         {
-            return View(employees);
+            return View(_employeeService.GetAll());
         }
         public IActionResult Details(int id)
         {
-            return View((Employee)employees.FirstOrDefault(t => t.Id == id));
+            return View(_employeeService.Details(id));
         }
         public IActionResult Delete(int id)
         {
-            employees.Remove(employees.FirstOrDefault(t => t.Id == id));
-            return RedirectToAction("Index","Employee", new { t=employees});
+            if (_employeeService.Delete(id) == true)
+            {
+
+            }
+            else ModelState.AddModelError("Role","Не удалось удалить модель");
+            return RedirectToAction("Index","Employee", new { t=_employeeService.GetAll()});
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return View(employees.FirstOrDefault(t=>t.Id==id));
+            return View(_employeeService.Details(id));
         }
         [HttpPost]
         public IActionResult Edit(Employee employee)
         {
-            employees.Remove(employees.FirstOrDefault(t=> t.Id == employee.Id));
-            employees.Add(employee);
-            return RedirectToAction("Index", "Employee", new { t = employees });
+            _employeeService.Edit(employee);
+            return RedirectToAction("Index", "Employee");
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Employee employee)
+        {
+            _employeeService.Create(employee);
+            return RedirectToAction("Index", "Employee");
         }
     }
 }
