@@ -29,6 +29,9 @@ namespace MyStore_GB_
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<ICategorysService, CategorySevice>();
+            services.AddScoped<IBrandsSevice, BrandService>();
+            services.AddScoped<IProductsSevice, ProductService>();
             services.AddControllersWithViews();
             services.AddScoped<IEmployeeService,EmployeeService > ();
         }
