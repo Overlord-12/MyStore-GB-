@@ -8,6 +8,7 @@ namespace MyStore_GB_.Models.Service.Interface
 {
     public interface IProductsSevice
     {
-        IEnumerable<Product> GetAllCategory();
+        IEnumerable<Product> GetAllProducts();
+        Product GetProduct(int id);
     }
 }

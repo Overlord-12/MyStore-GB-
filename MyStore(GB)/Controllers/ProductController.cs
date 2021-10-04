@@ -16,11 +16,11 @@ namespace MyStore_GB_.Controllers
         }
         public IActionResult Index()
         {
-            return View(_productsSevice.GetAllCategory());
+            return View(_productsSevice.GetAllProducts());
         }
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return View();
+            return View(_productsSevice.GetProduct(id));
         }
     }
 }
