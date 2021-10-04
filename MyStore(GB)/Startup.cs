@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyStore_GB_
 {
@@ -25,6 +27,8 @@ namespace MyStore_GB_
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(connection));
             services.AddControllersWithViews();
             services.AddScoped<IEmployeeService,EmployeeService > ();
         }
