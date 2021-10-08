@@ -19,6 +19,43 @@ namespace Models.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Stiv",
+                            LastName = "Stivenson",
+                            Role = "DEV"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "Bob",
+                            LastName = "Stivenson",
+                            Role = "PM"
+                        });
+                });
+
             modelBuilder.Entity("Models.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")

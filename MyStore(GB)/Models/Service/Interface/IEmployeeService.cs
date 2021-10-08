@@ -9,7 +9,7 @@ namespace MyStore_GB_.Models.Service.Interface
     public interface IEmployeeService
     {
         public IEnumerable<Employee> GetAll();
-        public bool Delete(int id);
+        public void Delete(int id);
         public Employee Details(int id);
         public void Edit(Employee employee);
         public void Create(Employee employee);
