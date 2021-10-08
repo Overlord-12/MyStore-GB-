@@ -25,11 +25,6 @@ namespace MyStore_GB_.Controllers
         }
         public IActionResult Delete(int id)
         {
-            if (_employeeService.Delete(id) == true)
-            {
-
-            }
-            else ModelState.AddModelError("Role","Не удалось удалить модель");
             return RedirectToAction("Index","Employee", new { t=_employeeService.GetAll()});
         }
         [HttpGet]

@@ -9,39 +9,37 @@ namespace MyStore_GB_.Models.Service
 {
     public class EmployeeService : IEmployeeService
     {
-        static List<Employee> employees = new()
+        private DataBaseContext _dataBaseContext;
+        public EmployeeService(DataBaseContext dataBaseContext)
         {
-            new Employee { Id = 1, LastName = "Stivenson", FirstName = "Stiv", Role = "DEV" },
-            new Employee { Id = 2, LastName = "Stivenson", FirstName = "Bob", Role = "PM" },
-            new Employee { Id = 3, LastName = "Stivenson", FirstName = "Shelly", Role = "QA" }
-        };
+            _dataBaseContext = dataBaseContext;
+        }
 
         public void Create(Employee employee)
         {
-            employee.Id = employees.Max(t => t.Id + 1);
-            employees.Add(employee);
+            employee.Id = _dataBaseContext.Employees.Max(t => t.Id + 1);
+            _dataBaseContext.Employees.Add(employee);
         }
 
-        public bool Delete(int id)
+        public void Delete(int id)
         {
-            if (employees.Remove(employees.FirstOrDefault(t => t.Id == id)) == true) return true;
-            return false;
+            _dataBaseContext.Employees.Remove(_dataBaseContext.Employees.FirstOrDefault(t => t.Id == id));
         }
 
         public Employee Details(int id)
         {
-            return (Employee)employees.FirstOrDefault(t => t.Id == id);
+            return (Employee)_dataBaseContext.Employees.FirstOrDefault(t => t.Id == id);
         }
 
         public void Edit(Employee employee)
         {
-            employees.Remove(employees.FirstOrDefault(t => t.Id == employee.Id));
-            employees.Add(employee);
+            _dataBaseContext.Employees.Remove(_dataBaseContext.Employees.FirstOrDefault(t => t.Id == employee.Id));
+            _dataBaseContext.Employees.Add(employee);
         }
 
         public IEnumerable<Employee> GetAll()
         {
-            return employees;
+            return _dataBaseContext.Employees.ToList();
         }
     }
 }

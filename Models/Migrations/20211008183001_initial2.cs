@@ -2,7 +2,7 @@
 
 namespace Models.Migrations
 {
-    public partial class initial : Migration
+    public partial class initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,6 +33,21 @@ namespace Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -59,6 +74,16 @@ namespace Models.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "FirstName", "LastName", "Role" },
+                values: new object[] { 1, "Stiv", "Stivenson", "DEV" });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "FirstName", "LastName", "Role" },
+                values: new object[] { 2, "Bob", "Stivenson", "PM" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Products_BrandId",
                 table: "Products",
@@ -72,6 +97,9 @@ namespace Models.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Employees");
+
             migrationBuilder.DropTable(
                 name: "Products");
 

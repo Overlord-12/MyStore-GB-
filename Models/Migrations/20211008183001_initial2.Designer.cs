@@ -10,8 +10,8 @@ using Models;
 namespace Models.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20211004160346_initial")]
-    partial class initial
+    [Migration("20211008183001_initial2")]
+    partial class initial2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,43 @@ namespace Models.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Stiv",
+                            LastName = "Stivenson",
+                            Role = "DEV"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            FirstName = "Bob",
+                            LastName = "Stivenson",
+                            Role = "PM"
+                        });
+                });
 
             modelBuilder.Entity("Models.Entities.Brand", b =>
                 {
